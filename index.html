@@ -102,7 +102,21 @@
             gap: 20px;
         }
 
-        .brand {
+               .brand {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .brand-text {
             display: flex;
             flex-direction: column;
         }
@@ -559,9 +573,19 @@
 
 <header>
     <div class="container nav">
-        <a href="#" class="brand">
-            <span class="brand-name">MH Infi Soins Plus</span>
-            <span class="brand-sub">Infirmière à domicile</span>
+                <a href="#" class="brand">
+            <img
+                src="images/logo-mh-infi-soins-plus.webp"
+                alt="MH Infi Soins Plus — infirmière à domicile"
+                class="brand-logo"
+                width="58"
+                height="58"
+            >
+
+            <span class="brand-text">
+                <span class="brand-name">MH Infi Soins Plus</span>
+                <span class="brand-sub">Infirmière à domicile</span>
+            </span>
         </a>
 
         <a class="phone" href="tel:+32476805907">
