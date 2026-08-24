@@ -864,35 +864,48 @@
                         le message préparé.
                     </p>
 
-                    <form id="contactForm">
+                    <form id="contactForm" action="https://formspree.io/f/mnpakplv" method="POST">
 
-                        <label for="name">Votre nom</label>
-                        <input
-                            type="text"
-                            id="name"
-                            placeholder="Votre nom"
-                            required
-                        >
+    <input type="hidden" name="_subject" value="Nouvelle demande - MH Infi Soins Plus">
 
-                        <label for="phone">Téléphone</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            placeholder="Votre numéro de téléphone"
-                        >
+    <label for="name">Votre nom</label>
+    <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Votre nom"
+        required
+    >
 
-                        <label for="message">Votre message</label>
-                        <textarea
-                            id="message"
-                            placeholder="Expliquez brièvement votre demande..."
-                            required
-                        ></textarea>
+    <label for="phone">Téléphone</label>
+    <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="Votre numéro de téléphone"
+    >
 
-                        <button class="btn btn-primary submit" type="submit">
-                            ✉️ Préparer l'e-mail
-                        </button>
+    <label for="message">Votre message</label>
+    <textarea
+        id="message"
+        name="message"
+        placeholder="Expliquez brièvement votre demande..."
+        required
+    ></textarea>
 
-                    </form>
+    <button class="btn btn-primary submit" type="submit">
+        ✉️ Envoyer ma demande
+    </button>
+
+</form>
+
+<div id="formSuccess" style="display:none; margin-top:20px; padding:15px; border-radius:10px; background:#e8f7f3; color:#12675e;">
+    ✅ Votre demande a bien été envoyée à Magali.
+</div>
+
+<div id="formError" style="display:none; margin-top:20px; padding:15px; border-radius:10px; background:#fdecec; color:#a33;">
+    ❌ Une erreur est survenue. Vous pouvez contacter Magali directement au 0476 80 59 07.
+</div>
 
                 </div>
 
@@ -921,30 +934,42 @@
 </footer>
 
 <script>
-    document.getElementById("contactForm").addEventListener("submit", function(event) {
+    document.getElementById("contactForm").addEventListener("submit", async function(event) {
         event.preventDefault();
 
-        const name = document.getElementById("name").value;
-        const phone = document.getElementById("phone").value;
-        const message = document.getElementById("message").value;
+        const form = event.target;
+        const successMessage = document.getElementById("formSuccess");
+        const errorMessage = document.getElementById("formError");
+        const submitButton = form.querySelector("button[type='submit']");
 
-        const subject = encodeURIComponent(
-            "Demande de renseignements - MH Infi Soins Plus"
-        );
+        successMessage.style.display = "none";
+        errorMessage.style.display = "none";
 
-        const body = encodeURIComponent(
-            "Bonjour Magali,\n\n" +
-            "Nom : " + name + "\n" +
-            "Téléphone : " + (phone || "Non renseigné") + "\n\n" +
-            "Message :\n" + message + "\n\n" +
-            "Envoyé depuis le site MH Infi Soins Plus."
-        );
+        submitButton.disabled = true;
+        submitButton.textContent = "Envoi en cours...";
 
-        window.location.href =
-            "mailto:magali.18@live.be?subject=" +
-            subject +
-            "&body=" +
-            body;
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: {
+                    "Accept": "application/json"
+                }
+            });
+
+            if (response.ok) {
+                form.reset();
+                form.style.display = "none";
+                successMessage.style.display = "block";
+            } else {
+                throw new Error("Erreur lors de l'envoi");
+            }
+
+        } catch (error) {
+            errorMessage.style.display = "block";
+            submitButton.disabled = false;
+            submitButton.textContent = "✉️ Envoyer ma demande";
+        }
     });
 </script>
 
