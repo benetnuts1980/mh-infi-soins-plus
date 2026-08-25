@@ -566,6 +566,26 @@
                 padding: 25px;
             }
         }
+        .consent {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+            margin: 18px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
+        .consent input {
+            margin-top: 3px;
+            flex: 0 0 auto;
+            width: auto;
+        }
+
+        .consent span {
+            flex: 1;
+        }
     </style>
 </head>
 
@@ -917,6 +937,16 @@
         placeholder="Expliquez brièvement votre demande..."
         required
     ></textarea>
+
+    <label class="consent">
+        <input type="checkbox" name="privacy_consent" required>
+        <span>
+            J'ai pris connaissance de la politique de confidentialité et j'accepte
+            que les informations saisies soient utilisées afin de répondre à ma
+            demande et de me recontacter à ce sujet.
+            <a href="confidentialite.html">Voir notre politique de confidentialité.</a>
+        </span>
+    </label>
 
     <button class="btn btn-primary submit" type="submit">
         ✉️ Envoyer ma demande
